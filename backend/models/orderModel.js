@@ -16,9 +16,6 @@ const orderSchema = mongoose.Schema(
     ordertotal: {
       type: Number,
     },
-    special_instructions: {
-      type: String,
-    },
     order_details: [
       {
         dishname: { type: String },
