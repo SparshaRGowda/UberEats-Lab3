@@ -12,7 +12,7 @@ const DishType = new GraphQLObjectType({
   name: 'Dish',
   fields: () => ({
     _id: { type: GraphQLID },
-    restid: { type: GraphQLID },
+    restid: { type: GraphQLString },
     dishname: { type: GraphQLString },
     dishprice: { type: GraphQLFloat },
     dishtype: { type: GraphQLString },

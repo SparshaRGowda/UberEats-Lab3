@@ -6,6 +6,7 @@ const {
   GraphQLString,
   GraphQLList,
   GraphQLSchema,
+  GraphQLFloat,
 } = graphql
 
 const bcrypt = require('bcryptjs')
@@ -13,6 +14,8 @@ const bcrypt = require('bcryptjs')
 const UserType = require('./TypeDefs/userType')
 const RestaurantType = require('./TypeDefs/restaurantType')
 const OrderType = require('./TypeDefs/orderType')
+const DishType = require('./TypeDefs/dishType')
+
 const Restaurant = require('../models/restaurantModel')
 //import data
 
@@ -69,10 +72,6 @@ const Mutation = new GraphQLObjectType({
         rimage: { type: GraphQLString },
       },
       async resolve(parent, args) {
-        const restaurantExists = await Restaurant.findOne({
-          remail: args.remail,
-        })
-
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(args.rpassword, salt)
 
@@ -87,6 +86,22 @@ const Mutation = new GraphQLObjectType({
         })
 
         return newRestaurant
+      },
+    },
+
+    addDishToMenu: {
+      type: DishType,
+      args: {
+        restid: { type: GraphQLString },
+        dishname: { type: GraphQLString },
+        dishprice: { type: GraphQLFloat },
+        dishtype: { type: GraphQLString },
+        dishCategory: { type: GraphQLString },
+        description: { type: GraphQLString },
+        imageUrl: { type: GraphQLString },
+      },
+      async resolve(parent, args) {
+        const restaurant = await Restaurant.findById({ _id: restId })
       },
     },
   },

@@ -29,8 +29,10 @@ const restaurantSchema = mongoose.Schema(
       {
         dishname: { type: String },
         dishprice: { type: Number },
-        dishcategory: { type: String },
         dishtype: { type: String },
+        dishCategory: { type: String },
+        description: { type: String },
+        imageUrl: { type: String },
       },
     ],
   },
