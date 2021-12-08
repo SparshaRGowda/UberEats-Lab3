@@ -3,6 +3,8 @@ const express = require('express')
 const dotenv = require('dotenv')
 const connectdb = require('./config/db')
 const userRoutes = require('./routes/userRoutes')
+const schema = require('./Schemas/index')
+const { graphqlHTTP } = require('express-graphql')
 
 const app = express()
 app.use(express.json())
@@ -12,6 +14,14 @@ app.use('/api/users', userRoutes)
 dotenv.config()
 
 connectdb()
+
+app.use(
+  '/graphql',
+  graphqlHTTP({
+    schema,
+    graphiql: true,
+  })
+)
 
 app.get('/', (req, res) => {
   res.send('API is running....')

@@ -1,21 +1,30 @@
 const asyncHandler = require('express-async-handler')
-
-//const crypto = require('crypto')
-const connectdb = require('../config/db')
 const User = require('../models/userModel')
+const bcrypt = require('bcryptjs')
 
-/*const addUser = asyncHandler(async (req, res) => {
-  kafka.make_request('signup_user', req.body, (err, results) => {
-    if (err) {
-      res.status(500).json({
-        error: err,
-      })
+const signUpUser = asyncHandler(async (req, res) => {
+  const { firstName, lastName, email, password, address } = req.body
+
+  try {
+    const user = await User.findOne({ email: req.body.email })
+
+    if (user) {
+      res.status(400).send('User already exists')
     } else {
-      res.status(200).send({
-        results,
+      const salt = await bcrypt.genSalt(10)
+      const hashedPassword = await bcrypt.hash(password, salt)
+      const newUser = await User.create({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: hashedPassword,
+        address: address,
       })
+      res.status(201).send(newUser)
     }
-  })
-})*/
+  } catch (error) {
+    res.status(500).send('Internal Server Error')
+  }
+})
 
-module.exports = { addUser }
+module.exports = { signUpUser }
