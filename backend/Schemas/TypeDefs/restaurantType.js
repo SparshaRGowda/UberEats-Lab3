@@ -1,9 +1,12 @@
 const graphql = require('graphql')
-const { GraphQLObjectType, GraphQLString, GraphQLInt } = graphql
+const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLList, GraphQLID } =
+  graphql
+const dishType = require('./dishType')
 
 const RestaurantType = new GraphQLObjectType({
   name: 'Restaurant',
   fields: () => ({
+    _id: { type: GraphQLID },
     restname: { type: GraphQLString },
     remail: { type: GraphQLString },
     rpassword: { type: GraphQLString },
@@ -11,14 +14,7 @@ const RestaurantType = new GraphQLObjectType({
     rtype: { type: GraphQLString },
     rdtype: { type: GraphQLString },
     rimage: { type: GraphQLString },
-    rest_menu: [
-      {
-        dishname: { type: GraphQLString },
-        dishprice: { type: GraphQLInt },
-        dishquant: { type: GraphQLInt },
-        dishtype: { type: GraphQLString },
-      },
-    ],
+    rest_menu: { type: new GraphQLList(dishType) },
   }),
 })
 
