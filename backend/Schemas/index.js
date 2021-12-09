@@ -1,5 +1,6 @@
 const graphql = require('graphql')
 const User = require('../models/userModel')
+const Restaurant = require('../models/restaurantModel')
 const {
   GraphQLObjectType,
   GraphQLInt,
@@ -16,7 +17,6 @@ const RestaurantType = require('./TypeDefs/restaurantType')
 const OrderType = require('./TypeDefs/orderType')
 const DishType = require('./TypeDefs/dishType')
 
-const Restaurant = require('../models/restaurantModel')
 //import data
 
 const RootQuery = new GraphQLObjectType({
@@ -25,8 +25,26 @@ const RootQuery = new GraphQLObjectType({
     getAllUsers: {
       type: new GraphQLList(UserType),
       args: { id: { type: GraphQLInt } },
-      resolve(parent, args) {
+      async resolve(parent, args) {
         return mysql
+      },
+    },
+
+    getAllRestaurants: {
+      type: new GraphQLList(RestaurantType),
+      args: { _id: { type: GraphQLString } },
+      async resolve(parent, args) {
+        const restaurants = await Restaurant.find({})
+        return restaurants
+      },
+    },
+
+    getRestaurantDetails: {
+      type: RestaurantType,
+      args: { _id: { type: GraphQLString } },
+      async resolve(parent, args) {
+        const restaurantObj = await Restaurant.findById({ _id: args._id })
+        return restaurantObj
       },
     },
   },
