@@ -11,7 +11,7 @@ const RestaurantType = require('./restaurantType')
 const DishType = new GraphQLObjectType({
   name: 'Dish',
   fields: () => ({
-    _id: { type: GraphQLID },
+    _id: { type: GraphQLString },
     restid: { type: GraphQLString },
     dishname: { type: GraphQLString },
     dishprice: { type: GraphQLFloat },

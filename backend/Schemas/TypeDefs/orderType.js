@@ -11,7 +11,7 @@ const {
 const OrderType = new GraphQLObjectType({
   name: 'Order',
   fields: () => ({
-    _id: { type: GraphQLID },
+    _id: { type: GraphQLString },
     userid: { type: GraphQLString },
     restid: { type: GraphQLString },
     orderstatus: { type: GraphQLString },

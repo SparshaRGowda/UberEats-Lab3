@@ -6,7 +6,7 @@ const dishType = require('./dishType')
 const RestaurantType = new GraphQLObjectType({
   name: 'Restaurant',
   fields: () => ({
-    _id: { type: GraphQLID },
+    _id: { type: GraphQLString },
     restname: { type: GraphQLString },
     remail: { type: GraphQLString },
     rpassword: { type: GraphQLString },
